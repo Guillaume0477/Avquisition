@@ -13,7 +13,13 @@ k = 0
 while(True):
     ret, frame = cap.read() #1 frame acquise à chaque iteration
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #conversion en n&b
+
+
+    edges = cv2.Canny(gray,100,200)
+
     cv2.imshow('Capture_Video', gray) #affichage
+    cv2.imshow('Capture_Contours', edges) #affichage
+
     key = cv2.waitKey(1) #on évalue la touche pressée
 
     hist = cv2.calcHist(gray, [0], None, [256], [0,255])
@@ -25,8 +31,11 @@ while(True):
 
     if key & 0xFF == ord('q'): #si appui sur'q'
         break #sortie de la boucle while
+    
+    #time.sleep(1)
     if key == ord('c'):
         #enregistre image
+
         cv2.imwrite("Capture" + str(k)+".png", gray)
         k+=1
 
