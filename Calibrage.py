@@ -36,17 +36,17 @@ while(True):
 
     #Calcul de la matrice gaussienne
     [X,Y] = np.meshgrid(np.arange(floor(-sizeImage[1]/2),floor(sizeImage[1]/2), 1), np.arange(floor(-sizeImage[0]/2),floor(sizeImage[0]/2), 1))
-    A = 100
+    A = 1/100
     sig = [100,100]
     G = A*np.exp(-X**2/(sig[0]**2) - Y**2/(sig[1]**2))
+    PX = np.sin(X/np.max(X)) #np.sign(X)#
+    PY = np.cos(Y/np.max(Y)) #np.sign(Y)#
 
-    Xmap = X+sizeImage[1]/2+G 
-    Ymap = Y+sizeImage[0]/2+G
+    Xmap = X+sizeImage[1]/2+np.multiply(G, PX) 
+    Ymap = Y+sizeImage[0]/2+np.multiply(G,PY)
     
     ImGauss = cv2.remap(gray, Xmap.astype(np.float32) , Ymap.astype(np.float32), cv2.INTER_LINEAR)
 
-
-    print(Y.shape)
     #Affichage histogramme
     plt.plot(hist)
     plt.draw()
